@@ -1,0 +1,10 @@
+# Copie para terraform.tfvars (no .gitignore) e preencha. NÃO suba o terraform.tfvars para o Git.
+region            = "sa-east-1"
+allowed_cidr      = "203.0.113.10/32"                 # o SEU IP público (https://ifconfig.me)
+repo_url          = "https://github.com/SEU-USUARIO/soiling-detection.git"
+repo_ref          = "main"
+admin_api_key     = "troque"
+postgres_password = "troque"
+# gemini_api_key  = ""
+# gemini_model    = ""
+enable_simulator  = true

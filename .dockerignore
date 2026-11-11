@@ -1,0 +1,13 @@
+.git
+.env
+**/node_modules
+**/__pycache__
+frontend/dist
+ai-model
+firmware
+infra
+historico
+docs
+backend/data
+backend/storage
+backend/tests

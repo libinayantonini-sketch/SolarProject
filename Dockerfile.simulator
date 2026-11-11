@@ -1,0 +1,10 @@
+# Simulador do ESP32 (perfil "sim" do compose): para ensaiar sem hardware.
+FROM python:3.13-slim
+WORKDIR /app
+COPY tools/requirements-sim.txt .
+RUN pip install --no-cache-dir -r requirements-sim.txt
+COPY tools/esp32_simulator /app/esp32_simulator
+ENV PYTHONPATH=/app
+EXPOSE 8081
+# Sem modelo treinado montado em /model, usa o modelo sintético (NÃO classifica sujeira de verdade).
+CMD ["sh", "-c", "if [ -f /model/model.tflite ] || [ -f /model/model.onnx ]; then python -m esp32_simulator.server --model-dir /model --port 8081 --key \"$ESP32_KEY\"; else python -m esp32_simulator.server --demo-model --port 8081 --key \"$ESP32_KEY\"; fi"]

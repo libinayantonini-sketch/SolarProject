@@ -1,0 +1,6 @@
+# Treino e exportação TFLite int8 (roda no seu computador ou no Colab; NÃO vai para o contêiner da API).
+tensorflow-cpu==2.21.0
+numpy==2.5.4
+pillow==13.0.0
+pytest==9.2.0
+# Opcional, só para baixar o dataset: roboflow

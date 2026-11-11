@@ -1,0 +1,7 @@
+# Simulador do ESP32 (usa o modelo ONNX de teste OU o .tflite treinado).
+numpy==2.5.4
+pillow==13.0.0
+onnx==1.23.2
+onnxruntime==1.31.1
+# Para simular com o .tflite real (usado no Dockerfile.simulator):
+ai-edge-litert==2.3.0

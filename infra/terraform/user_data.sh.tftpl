@@ -1,0 +1,31 @@
+#!/bin/bash
+# Executado uma vez no primeiro boot. Log: /var/log/soiling-bootstrap.log
+set -euxo pipefail
+exec > >(tee -a /var/log/soiling-bootstrap.log) 2>&1
+
+apt-get update -y
+apt-get install -y ca-certificates curl git unzip docker.io docker-compose-v2 awscli
+systemctl enable --now docker
+
+git clone --depth 1 --branch "${repo_ref}" "${repo_url}" /opt/soiling
+cd /opt/soiling
+
+param() { aws ssm get-parameter --region "${region}" --with-decryption --name "${ssm_path}/$1" --query Parameter.Value --output text; }
+
+umask 077
+cat > .env <<ENV
+POSTGRES_PASSWORD=$(param POSTGRES_PASSWORD)
+ADMIN_API_KEY=$(param ADMIN_API_KEY)
+ESP32_URL=${esp32_url}
+INPUT_SIZE=96
+GEMINI_MODEL=${gemini_model}
+%{ if use_gemini ~}
+GEMINI_API_KEY=$(param GEMINI_API_KEY)
+%{ endif ~}
+ENV
+
+%{ if use_simulator ~}
+docker compose --profile sim up -d --build
+%{ else ~}
+docker compose up -d --build
+%{ endif ~}
